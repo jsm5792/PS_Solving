@@ -1,4 +1,4 @@
-# PS_Solving
+# PS_learning
 
 *Using C++*
 
