@@ -1,17 +1,29 @@
-class Solution:
-    def smallestSubsequence(self, s: str) -> str:
-        freq = Counter(s)
-        seen = set()
-        stack = []
+class Solution {
+public:
+    string smallestSubsequence(string s) {
+        int freq[27] = {0};
+        bitset<27> seen;
+        string stack;
 
-        for c in s:
-            freq[c] -= 1
-            if c in seen: continue
+        for (auto& c : s)
+            freq[c & 31]++;
 
-            while stack and stack[-1] > c and freq[stack[-1]]:
-                seen.remove(stack.pop())
+        for (auto& c : s) {
+            int x = c & 31;
+            freq[x]--;
 
-            stack.append(c)
-            seen.add(c)
+            if (seen.test(x))
+                continue;
 
-        return "".join(stack)
+            while (stack.length() && stack.back() > c && freq[stack.back() & 31]) {
+                seen.reset(stack.back() & 31);
+                stack.pop_back();
+            }
+
+            stack.push_back(c);
+            seen.set(x);
+        }
+
+        return stack;
+    }
+};
